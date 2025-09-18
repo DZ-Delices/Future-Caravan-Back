@@ -4,6 +4,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth");
 const dishRoutes = require("./routes/dishRoutes");
 const ratingRoutes = require("./routes/ratingRoutes");
+const reservationRoutes = require("./routes/reservationRoutes");
 
 dotenv.config();
 
@@ -22,6 +23,8 @@ app.use("/api/adminauth", adminAuthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/dishes", dishRoutes);
 app.use("/api/ratings", ratingRoutes);
+app.use("/api/reservations", reservationRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
