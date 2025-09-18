@@ -30,6 +30,12 @@ const reservationSchema = new mongoose.Schema(
       enum: ["special_event", "dinner", "breakfast", "lunch"],
       required: true,
     },
+    numberOfPeople: {
+      type: Number,
+      required: true,
+      min: [1, "At least 1 person required"],
+      max: [10, "A single table cannot seat more than 10 people"], // adjust as needed
+    },
   },
   { timestamps: true }
 );

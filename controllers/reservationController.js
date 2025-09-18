@@ -2,29 +2,30 @@ const Reservation = require("../models/Reservation");
 
 // 📌 Create a reservation
 exports.createReservation = async (req, res) => {
-  try {
+    try {
     const { userId, tableNumber, date, timeFrom, timeTo, purpose } = req.body;
 
     // Check if table already reserved at that time
     const conflict = await Reservation.findOne({
-      tableNumber,
-      date: new Date(date),
-      $or: [
+        tableNumber,
+        date: new Date(date),
+        $or: [
         { timeFrom: { $lt: timeTo }, timeTo: { $gt: timeFrom } } // overlap
-      ],
+        ],
     });
 
     if (conflict) {
-      return res.status(400).json({ message: "This table is already reserved at that time." });
+        return res.status(400).json({ message: "This table is already reserved at that time." });
     }
 
     const reservation = new Reservation({
-      userId,
-      tableNumber,
-      date: new Date(date),
-      timeFrom,
-      timeTo,
-      purpose,
+        userId,
+        tableNumber,
+        date: new Date(date),
+        timeFrom,
+        timeTo,
+        purpose,
+        numberOfPeople,
     });
 
     await reservation.save();
