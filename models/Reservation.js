@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 
 const reservationSchema = new mongoose.Schema(
-    {
+  {
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     tableNumber: {
       type: Number,
       required: true,
       min: [1, "Table number must be at least 1"],
-      max: [12, "There are only 12 tables available"], // ✅ limit tables
+      max: [12, "There are only 12 tables available"], // limit tables
     },
     date: {
       type: Date,
@@ -34,7 +34,12 @@ const reservationSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: [1, "At least 1 person required"],
-      max: [10, "A single table cannot seat more than 10 people"], // adjust as needed
+      max: [10, "A single table cannot seat more than 10 people"],
+    },
+    status: {
+      type: String,
+      enum: ["pending", "canceled", "completed"], // ✅ added status
+      default: "pending", // default value when creating a new reservation
     },
   },
   { timestamps: true }

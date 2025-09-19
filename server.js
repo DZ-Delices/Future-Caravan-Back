@@ -6,6 +6,8 @@ const dishRoutes = require("./routes/dishRoutes");
 const ratingRoutes = require("./routes/ratingRoutes");
 const reservationRoutes = require("./routes/reservationRoutes");
 const cartRoutes = require('./routes/cart');
+const dashboardRoutes = require("./routes/dashboard");
+const employeeRoutes = require("./routes/employee");
 
 dotenv.config();
 
@@ -26,8 +28,8 @@ app.use("/api/dishes", dishRoutes);
 app.use("/api/ratings", ratingRoutes);
 app.use("/api/reservations", reservationRoutes);
 app.use('/api/carts', cartRoutes);
-
-
+app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/employees", employeeRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
