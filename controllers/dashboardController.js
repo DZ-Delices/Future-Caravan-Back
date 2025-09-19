@@ -1,6 +1,6 @@
-// controllers/dashboardController.js
 const User = require("../models/User");
 const Reservation = require("../models/Reservation");
+const Employee = require("../models/Employee");
 // Get all users
 exports.getAllUsers = async (req, res) => {
     try {
@@ -30,5 +30,25 @@ exports.getAllReservationDates = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error fetching reservation dates", error });
+  }
+};
+
+exports.getCounts = async (req, res) => {
+  try {
+    const userCount = await User.countDocuments();
+    const employeeCount = await Employee.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      userCount,
+      employeeCount
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching counts",
+      error
+    });
   }
 };
