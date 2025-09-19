@@ -1,5 +1,7 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("../config/firebaseKey.json");
+require("dotenv").config();
+// Parse JSON from environment variable
+const serviceAccount = JSON.parse(process.env.FIREBASE_KEY);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -9,7 +11,7 @@ admin.initializeApp({
 const sendNotificationToToken = async (token, title, body, data = {}) => {
   const message = {
     notification: { title, body },
-    token, // device token
+    token,
     data,
   };
 
@@ -27,7 +29,7 @@ const sendNotificationToToken = async (token, title, body, data = {}) => {
 const sendNotificationToTopic = async (topic, title, body, data = {}) => {
   const message = {
     notification: { title, body },
-    topic, // topic name
+    topic,
     data,
   };
 

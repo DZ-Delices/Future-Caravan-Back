@@ -23,7 +23,7 @@ exports.createEmployee = async (req, res) => {
         name,
         phone,
         password: hashedPassword,
-        role,
+        departement,
         profilePic: profilePic || "",
     });
 
