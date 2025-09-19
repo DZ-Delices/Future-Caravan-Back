@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-
+const { sendNotificationToToken } = require("../utils/fcm"); 
 // Register
 exports.register = async (req, res) => {
   try {
@@ -44,7 +44,26 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Incorrect password." });
 
-    res.status(200).json({ message: "Login successful", user: { name: user.name, phone: user.phone, _id: user._id } });
+    let notificationStatus = "No FCM token available";
+    if (user.fcmToken) {
+      try {
+        await sendNotificationToToken(
+          user.fcmToken,
+          "Welcome Back!",
+          `Hello ${user.name}, you have successfully logged in!`
+        );
+        notificationStatus = "Notification sent";
+      } catch (err) {
+        notificationStatus = `Notification failed: ${err.message}`;
+      }
+    }
+
+    res.status(200).json({ 
+      message: "Login successful", 
+      user: { name: user.name, phone: user.phone, _id: user._id },
+      notificationStatus
+    });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
