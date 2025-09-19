@@ -5,6 +5,7 @@ const authRoutes = require("./routes/auth");
 const dishRoutes = require("./routes/dishRoutes");
 const ratingRoutes = require("./routes/ratingRoutes");
 const reservationRoutes = require("./routes/reservationRoutes");
+const cartRoutes = require('./routes/cart');
 
 dotenv.config();
 
@@ -24,6 +25,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/dishes", dishRoutes);
 app.use("/api/ratings", ratingRoutes);
 app.use("/api/reservations", reservationRoutes);
+app.use('/api/carts', cartRoutes);
+
 
 
 const PORT = process.env.PORT || 5000;
