@@ -3,7 +3,8 @@ const Reservation = require("../models/Reservation");
 // 📌 Create a reservation
 exports.createReservation = async (req, res) => {
     try {
-    const { userId, tableNumber, date, timeFrom, timeTo, purpose } = req.body;
+    const { userId, tableNumber, date, timeFrom, timeTo, purpose, numberOfPeople } = req.body;
+      console.log("📥 Incoming reservation request:", req.body);
 
     // Check if table already reserved at that time
     const conflict = await Reservation.findOne({
