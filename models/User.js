@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true }, // store hashed password
   profilePic: { type: String, default: "" },
   points: { type: [Number], default: [] },
-  fcmToken: { type: String }, // array of point entries
+  fcmToken: { type: String }, 
+  refreshToken: { type: String },
   createdAt: { type: Date, default: Date.now }
 });
 

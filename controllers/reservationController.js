@@ -2,35 +2,40 @@ const Reservation = require("../models/Reservation");
 
 // 📌 Create a reservation
 exports.createReservation = async (req, res) => {
-    try {
-    const { userId, tableNumber, date, timeFrom, timeTo, purpose, numberOfPeople } = req.body;
-      console.log("📥 Incoming reservation request:", req.body);
+  try {
+    const { tableNumber, date, timeFrom, timeTo, purpose, numberOfPeople } = req.body;
+    console.log("📥 Incoming reservation request:", req.body);
 
-    // Check if table already reserved at that time
+    // Check for conflicts
     const conflict = await Reservation.findOne({
-        tableNumber,
-        date: new Date(date),
-        $or: [
+      tableNumber,
+      date: new Date(date),
+      $or: [
         { timeFrom: { $lt: timeTo }, timeTo: { $gt: timeFrom } } // overlap
-        ],
+      ],
     });
 
     if (conflict) {
-        return res.status(400).json({ message: "This table is already reserved at that time." });
+      return res.status(400).json({ message: "This table is already reserved at that time." });
     }
 
+    // ✅ Use user from JWT instead of req.body.userId
     const reservation = new Reservation({
-        userId,
-        tableNumber,
-        date: new Date(date),
-        timeFrom,
-        timeTo,
-        purpose,
-        numberOfPeople,
+      userId: req.user._id,
+      tableNumber,
+      date: new Date(date),
+      timeFrom,
+      timeTo,
+      purpose,
+      numberOfPeople,
     });
 
     await reservation.save();
-    res.status(201).json(reservation);
+
+    res.status(201).json({
+      message: "Reservation created successfully",
+      reservation,
+    });
   } catch (error) {
     console.error("❌ Error creating reservation:", error);
     res.status(500).json({ message: "Error creating reservation", error });
