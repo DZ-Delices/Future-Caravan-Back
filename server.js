@@ -28,6 +28,9 @@ app.use(cors({
   credentials: true,
 }));
 
+
+const swaggerDocs = require("./config/swagger");
+swaggerDocs(app); 
 // Routes
 const adminAuthRoutes = require("./routes/adminAuthRoutes");
 const otpRoutes = require("./routes/otp");
