@@ -3,11 +3,11 @@ const { createReservation, getAvailableTables } = require("../controllers/reserv
 const protect = require("../middleware/authMiddleware");
 
 const router = express.Router();
-
 // 📌 Reserve a table (protected route)
 router.post("/", protect, createReservation);
 // 📌 Get available tables
 router.get("/available", getAvailableTables);
+
 
 /**
  * @swagger
@@ -121,6 +121,5 @@ router.get("/available", getAvailableTables);
  *       500:
  *         description: Error fetching available tables
  */
-
 
 module.exports = router;
